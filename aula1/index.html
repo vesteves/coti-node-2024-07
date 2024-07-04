@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./getcep.js"></script>
+  </head>
+  <body>
+    <div>
+      <label for="cep">CEP</label>
+      <input id="cep" type="text" />
+    </div>
+    <button onclick="fetchCep()">Ver</button>
+    <script>
+      const fetchCep = async () => {
+        const cep = document.getElementById('cep').value;
+        const result = await getCep(cep);
+        console.log(result);
+      };
+    </script>
+  </body>
+</html>
