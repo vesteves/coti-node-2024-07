@@ -8,3 +8,5 @@ export interface User extends UserBase {
 }
 
 export interface UserStore extends UserBase { }
+
+export interface UserUpdate extends Partial<UserBase> { }

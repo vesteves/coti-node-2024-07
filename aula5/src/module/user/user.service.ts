@@ -1,6 +1,6 @@
-import { User, UserStore } from './user'
+import { User, UserStore, UserUpdate } from './user'
 
-const users: User[] = [
+let users: User[] = [
   {
     id: 1,
     email: 'teste@teste.com',
@@ -30,9 +30,31 @@ const store = (param: UserStore): boolean => {
   return true
 }
 
+const update = (id: number, param: UserUpdate): boolean => {
+  users = users.map(user => {
+    if (user.id === id) {
+      return {
+        ...user,
+        ...param
+      }
+    }
+
+    return user
+  })
+
+  return true
+}
+
+const destroy = (id: number): boolean => {
+  users = users.filter(user => user.id !== id)
+  return true
+}
+
 export default {
   getAll,
   getOne,
   getByEmail,
-  store
+  store,
+  destroy,
+  update
 }

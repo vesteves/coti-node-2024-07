@@ -1,21 +1,11 @@
 import { Router, Request, Response } from 'express'
-import jwt from 'jsonwebtoken'
 import userService from './user.service'
+import { userStoreSchema, userUpdateSchema } from './user.schema'
+import { validateSchemaMiddleware } from '../../middleware/validateSchema'
 
 const router = Router()
 
-router.get('/', (req: Request, res: Response) => {
-  if (!req.headers.authorization) {
-    return res.status(401).send()
-  }
-
-  try {
-    jwt.verify(req.headers.authorization.replace('bearer ', ''), process.env.JWT_SECRET || "")
-  } catch (error: any) {
-    console.log(error)
-    return res.status(403).send()
-  }
-
+router.get('/', (_: Request, res: Response) => {
   const result = userService.getAll()
 
   return res.json(result)
@@ -26,9 +16,22 @@ router.get('/:id', (req: Request, res: Response) => {
   return res.json(result)
 })
 
-router.post('/', (req: Request, res: Response) => {
-  const result = userService.store(req.body)
+router.post('/', validateSchemaMiddleware(userStoreSchema), (_: Request, res: Response) => {
+  const result = userService.store(res.locals.validated)
   return res.json(result)
+})
+
+router.put('/:id', validateSchemaMiddleware(userUpdateSchema), (req: Request, res: Response) => {
+  const result = userService.update(Number(req.params.id), res.locals.validated)
+  return res.json(result)
+})
+
+router.delete('/:id', (req: Request, res: Response) => {
+  userService.destroy(Number(req.params.id))
+
+  return res.json({
+    msg: 'Usuário removido'
+  })
 })
 
 export default router

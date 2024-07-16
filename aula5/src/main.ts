@@ -9,8 +9,11 @@ app.use(express.json())
 import userRoute from './module/user/user.route'
 import authRoute from './module/auth/auth.route'
 
+// importação de middeware global)
+import authMiddleware from './middleware/auth'
+
 // app.use('/base', baseRoute)
-app.use('/user', userRoute)
+app.use('/user', authMiddleware, userRoute)
 app.use('/auth', authRoute)
 
 app.listen(8000, () => {
