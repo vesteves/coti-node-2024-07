@@ -1,26 +1,49 @@
 import { Category, CategoryStore, CategoryUpdate } from "./category"
+import { PrismaClient } from '@prisma/client'
 
-const getAll = (): Category[] => {
-  return []
+const prisma = new PrismaClient()
+
+const getAll = async (): Promise<Category[]> => {
+  const result = await prisma.category.findMany()
+
+  return result
 }
 
-const getById = (id: number): Category => {
-  return {
-    id: 1,
-    name: 'xpto'
-  }
+const getById = async (id: number): Promise<Category | null> => {
+  const result = await prisma.category.findFirst({
+    where: { id }
+  })
+
+  return result
 }
 
-const store = (params: CategoryStore): boolean => {
-  return true
+const store = async (params: CategoryStore): Promise<Category> => {
+  const result = await prisma.category.create({
+    data: {
+      name: params.name
+    }
+  })
+
+  return result
 }
 
-const update = (id: number, params: CategoryUpdate): boolean => {
-  return true
+const update = async (id: number, params: CategoryUpdate): Promise<Category> => {
+  const result = await prisma.category.update({
+    where: { id },
+    data: {
+      name: params.name
+    }
+  })
+
+  return result
 }
 
-const destroy = (id: number): boolean => {
-  return true
+const destroy = async (id: number): Promise<Category> => {
+  const result = await prisma.category.delete({
+    where: { id }
+  })
+
+  return result
 }
 
 export default {
