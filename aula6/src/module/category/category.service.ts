@@ -4,14 +4,21 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 const getAll = async (): Promise<Category[]> => {
-  const result = await prisma.category.findMany()
+  const result = await prisma.category.findMany({
+    include: {
+      products: true
+    }
+  })
 
   return result
 }
 
 const getById = async (id: number): Promise<Category | null> => {
   const result = await prisma.category.findFirst({
-    where: { id }
+    where: { id },
+    include: {
+      products: true
+    }
   })
 
   return result
