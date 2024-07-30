@@ -2,7 +2,6 @@ import { Router, Request, Response } from 'express'
 import userService from './user.service'
 import schemaValidate from '../../middleware/schemaValidate'
 import { userStoreSchema, userUpdateSchema } from './user.schema'
-import authMiddleware from '../../middleware/auth'
 
 const router = Router()
 

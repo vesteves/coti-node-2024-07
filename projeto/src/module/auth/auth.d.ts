@@ -12,3 +12,5 @@ export interface AuthResponse {
   token: string,
   user: AuthUser
 }
+
+export interface RegisterParams extends AuthParams { }
